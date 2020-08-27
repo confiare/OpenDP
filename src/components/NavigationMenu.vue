@@ -3,7 +3,6 @@
 </template>
 
 <script>
-  import { SidebarMenu } from 'vue-sidebar-menu'
   export default {
   data() {
   return {
@@ -24,7 +23,7 @@
   icon: 'fa fa-chart-area',
   child: [
   {
-  href: '/charts/sublink'.
+  href: '/charts/sublink',
   title: 'Sub Link'
   }
   ]
