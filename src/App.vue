@@ -1,60 +1,131 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+  <div>
+    <v-row justify="space-around">
+      <v-col cols="12">
+        <v-slider v-model="steps" label="Steps" min="2" max="20"></v-slider>
+      </v-col>
+      <v-switch v-model="vertical" label="Vertical"></v-switch>
+      <v-switch v-model="altLabels" label="altLabels"></v-switch>
+      <v-switch v-model="editable" label="Editable"></v-switch>
+    </v-row>
+    <v-stepper
+      v-model="e1"
+      :vertical="vertical"
+      :alt-labels="altLabels"
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <template v-if="vertical">
+        <template v-for="n in steps">
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="e1 > n"
+            :step="n"
+            :editable="editable"
+          >
+            Step {{ n }}
+          </v-stepper-step>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+          <v-stepper-content
+            :key="`${n}-content`"
+            :step="n"
+          >
+            <v-card
+              class="mb-12"
+              color="grey lighten-1"
+              height="200px"
+            ></v-card>
 
-      <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="nextStep(n)"
+            >
+              Continue
+            </v-btn>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+            <v-btn text>Cancel</v-btn>
+          </v-stepper-content>
+        </template>
+      </template>
+      <template v-else>
+        <v-stepper-header>
+          <template v-for="n in steps">
+            <v-stepper-step
+              :key="`${n}-step`"
+              :complete="e1 > n"
+              :step="n"
+              :editable="editable"
+            >
+              Step {{ n }}
+            </v-stepper-step>
 
-    <v-main>
-      <HelloWorld/>
-    </v-main>
-  </v-app>
+            <v-divider
+              v-if="n !== steps"
+              :key="n"
+            ></v-divider>
+          </template>
+        </v-stepper-header>
+
+        <v-stepper-items>
+          <v-stepper-content
+            v-for="n in steps"
+            :key="`${n}-content`"
+            :step="n"
+          >
+            <v-card
+              class="mb-12"
+              color="grey lighten-1"
+              height="200px"
+            ></v-card>
+
+            <v-btn
+              color="primary"
+              @click="nextStep(n)"
+            >
+              Continue
+            </v-btn>
+
+            <v-btn text>Cancel</v-btn>
+          </v-stepper-content>
+        </v-stepper-items>
+      </template>
+    </v-stepper>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  data () {
+    return {
+      e1: 1,
+      steps: 2,
+      vertical: false,
+      altLabels: false,
+      editable: true,
+    }
   },
-
-  data: () => ({
-    //
-  }),
-};
+  
+  watch: {
+    steps (val) {
+      if (this.e1 > val) {
+        this.e1 = val
+      }
+    },
+    vertical () {
+      this.e1 = 2
+      requestAnimationFrame(() => this.e1 = 1) // Workarounds
+    },
+  },
+  
+  methods: {
+    onInput (val) {
+      this.steps = parseInt(val)
+    },
+    nextStep (n) {
+      if (n === this.steps) {
+        this.e1 = 1
+      } else {
+        this.e1 = n + 1
+      }
+    },
+  },
+}
 </script>
