@@ -1,135 +1,47 @@
 <template>
-  <div>
-    <v-row justify="space-around">
-      <v-col cols="12">
-        <v-slider v-model="steps" label="Steps" min="2" max="20"></v-slider>
-      </v-col>
-      <v-switch v-model="vertical" label="Vertical"></v-switch>
-      <v-switch v-model="altLabels" label="altLabels"></v-switch>
-      <v-switch v-model="editable" label="Editable"></v-switch>
-    </v-row>
-    <v-stepper
-      v-model="e1"
-      :vertical="vertical"
-      :alt-labels="altLabels"
-    >
-      <template v-if="vertical">
-        <template v-for="n in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="e1 > n"
-            :step="n"
-            :editable="editable"
-          >
-            Step {{ n }}
-          </v-stepper-step>
-
-          <v-stepper-content
-            :key="`${n}-content`"
-            :step="n"
-          >
-            <v-card
-              class="mb-12"
-              color="grey lighten-1"
-              height="200px"
-            ></v-card>
-
-            <v-btn
-              color="primary"
-              @click="nextStep(n)"
-            >
-              Continue
-            </v-btn>
-
-            <v-btn text>Cancel</v-btn>
-          </v-stepper-content>
-        </template>
-      </template>
-      <template v-else>
-        <v-stepper-header>
-          <template v-for="n in steps">
-            <v-stepper-step
-              :key="`${n}-step`"
-              :complete="e1 > n"
-              :step="n"
-              :editable="editable"
-            >
-              Step {{ n }}
-            </v-stepper-step>
-
-            <v-divider
-              v-if="n !== steps"
-              :key="n"
-            ></v-divider>
-          </template>
-        </v-stepper-header>
-
-        <v-stepper-items>
-          <v-stepper-content
-            v-for="n in steps"
-            :key="`${n}-content`"
-            :step="n"
-          >
-            <v-card
-              class="mb-12"
-              color="grey lighten-1"
-              height="200px"
-            ></v-card>
-
-            <v-btn
-              color="primary"
-              @click="nextStep(n)"
-            >
-              Continue
-            </v-btn>
-
-            <v-btn text>Cancel</v-btn>
-          </v-stepper-content>
-        </v-stepper-items>
-      </template>
+<div id="app">
+  <v-app id="inspire">
+    <v-stepper v-model="e6" vertical>
+      <v-stepper-step :complete="e6 > 1" step="1">
+        Select an app
+        <small>Summarize if needed</small>
+      </v-stepper-step>
+      <v-stepper-content step="1">
+        <v-card class="mb-12" color="rgba(158, 158, 158, 0.3)" height="200px"></v-card>
+        <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
+        <v-btn text>Cancel</v-btn>
+      </v-stepper-content>
+      <v-stepper-step :complete="e6 > 2" step="2">Configure analytics for this app</v-stepper-step>
+      <v-stepper-content step="2">
+        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+        <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
+        <v-btn text>Cancel</v-btn>
+      </v-stepper-content>
+      <v-stepper-step :complete="e6 > 3" step="3">Select an ad format and name ad unit</v-stepper-step>
+      <v-stepper-content step="3">
+        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+        <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
+        <v-btn text>Cancel</v-btn>
+      </v-stepper-content>
+      <v-stepper-step step="4">View setup instructions</v-stepper-step>
+      <v-stepper-content step="4">
+        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+        <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
+        <v-btn text>Cancel</v-btn>
+      </v-stepper-content>
     </v-stepper>
-  </div>
+  </v-app>
+</div>
 </template>
-
 <script>
-export default {
-  data () {
-    return {
-      e1: 1,
-      steps: 2,
-      vertical: false,
-      altLabels: false,
-      editable: true,
-    }
-  },
-  
-  watch: {
-    steps (val) {
-      if (this.e1 > val) {
-        this.e1 = val
+  export default {
+    data () {
+      return {
+        e6: 1,
       }
     },
-    vertical () {
-      this.e1 = 2
-      requestAnimationFrame(() => this.e1 = 1) // Workarounds
-    },
-  },
-  
-  methods: {
-    onInput (val) {
-      this.steps = parseInt(val)
-    },
-    nextStep (n) {
-      if (n === this.steps) {
-        this.e1 = 1
-      } else {
-        this.e1 = n + 1
-      }
-    },
-  },
-}
+  }
 </script>
 <style>
-
-</style>
+ </style>
 
