@@ -7,7 +7,7 @@
         <small>Summarize if needed</small>
       </v-stepper-step>
       <v-stepper-content step="1">
-        <v-card class="mb-12" color="rgba(158, 158, 158, 0.3)" height="200px"></v-card>
+        <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
         <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
