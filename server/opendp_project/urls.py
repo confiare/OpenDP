@@ -21,6 +21,8 @@ from rest_framework import routers, serializers
 from opendp_apps.user.models import DataverseUser
 from opendp_apps.user.views import UserViewSet, SessionViewSet
 
+admin.site.site_header = 'OpenDP App Administration'
+admin.site.site_title = 'OpenDP App Administration'
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -34,7 +36,7 @@ router.register(r'sessions', SessionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),    
+    path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
 
     # Putting all vue-related views under "ui/" for now to separate from the api.

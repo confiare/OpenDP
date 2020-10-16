@@ -1,3 +1,10 @@
 from django.contrib import admin
+from opendp_apps.dataverse.models import RegisteredDataverse
 
-# Register your models here.
+
+class RegisteredDataverseAdmin(admin.ModelAdmin):
+    search_fields = ('name', 'dataverse_url', 'notes')
+    list_display = ('name', 'dataverse_url', 'active', 'notes')
+    save_on_top = True
+    list_filter  = ('active', )
+admin.site.register(RegisteredDataverse, RegisteredDataverseAdmin)
