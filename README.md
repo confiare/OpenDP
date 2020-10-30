@@ -1,30 +1,30 @@
 # The OpenDP Web Application
 
-## Building
-1. Install virtualenv for Python
-``` shell
-    pip3 install virtualenv
-```
-2. Clone the repo and change directory into the directory
-``` shell
-    cd $HOME && git clone https://github.com/opendifferentialprivacy/opendp-ux.git && cd $HOME/opendp-ux
-```
-3. Create a virtual environment
-``` shell
-    cd $HOME/opendp-ux && virtualenv -p `which python3` venv
-```
-4. Install Django project dependencies
-``` shell
-    pip install -r requirements.txt
-```
-5. Install Vue.js project dependencies
-``` shell
-    cd $HOME/opendp-ux/client && npm install
-```
-6. Build the Vue.js project
-``` shell
-    npm run build
-```
+## Building with Docker Compose
+1. Clone the repo and `cd` into the directory.
+
+    `git clone https://github.com/opendifferentialprivacy/opendp-ux.git && cd opendp-ux`
+
+1. `cd server`
+
+2. Tell Docker to turn on the webserver and database: 
+
+    `docker-compose up`
+
+3. The first time you run (or anytime schema changes have been made) 
+you need to run migrate manually:
+
+    `docker-compose run opendp_server python manage.py migrate`
+
+    (In general, any command can be run by adding "docker-compose run opendp_server" to the beginning, 
+such as:
+
+    `docker-compose run opendp_server python manage.py shell`
+    
+which will drop you into the Django shell on the Docker container.)
+
+## Running without Containers
+>>>>>>> bcee4f51fcf6226d82c2146f9488e8e56ec857a0
 
 1. Clone the repo and `cd` into the directory. `git clone https://github.com/opendifferentialprivacy/opendp-ux.git && cd opendp-ux`
 1. Create virtual environment: `python3 -m venv venv`
@@ -53,5 +53,23 @@
 curl http://127.0.0.1:8000/api/
 curl http://127.0.0.1:8000/api/users/
 ```
+
+## Generating code diagrams
+1. Create a Python virtualenv to set up your environment `python3 -m venv venv`
+2. Install PyDotPlus
+`pip install pydotplus`
+3. Install Django Extensions
+`pip install django-extensions`
+4. Configure your Django project to use Django Extensions in settings.py under `server/opendp-projects/`
+```
+INSTALLED_APPS = (
+	...
+	'django_extensions',
+	...
+)
+```
+5. Invoke Django manager with graph models option, from the server/ subdirectory
+`python manage.py graph_models -a -o opendpapp_models.png`
+6. Use a browser or viewer to view the created png file, found in the `server/` subdirectory
 
 (This is based on an [existing project](https://github.com/EugeneDae/django-vue-cli-webpack-demo) by EugeneDae. See his project for original documentation.)
