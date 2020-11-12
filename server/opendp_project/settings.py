@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'opendp_project',
     'opendp_apps.user',
     'opendp_apps.analysis',
-    'opendp_apps.dataverse'
+    'opendp_apps.dataverse',
+    'opendp_apps.exec_eng'
 ]
 
 MIDDLEWARE = [

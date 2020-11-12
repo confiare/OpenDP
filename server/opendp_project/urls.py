@@ -22,6 +22,10 @@ from rest_framework import routers, serializers
 
 from opendp_apps.user.models import DataverseUser
 from opendp_apps.user.views import UserViewSet, SessionViewSet
+
+from opendp_apps.exec_eng.models import Run, Status, Results
+from opendp_apps.exec_eng.views import RunViewSet, StatusViewSet, ResultsViewSet
+
 from opendp_project import settings
 from opendp_project.views import home_view
 
@@ -35,6 +39,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'sessions', SessionViewSet)
+router.register(r'run', RunViewSet)
+router.register(r'status', StatusViewSet)
+router.register(r'results', ResultsViewSet)
 
 urlpatterns = [
     url(r'^$', home_view),
